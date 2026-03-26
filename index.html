@@ -349,14 +349,13 @@
     </div>
 
     <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'flex';
-            } else {
-                menu.style.display = 'none';
-            }
-        }
+    // Ise hatayein:
+const GEMINI_MODEL = "gemini-1.5-flash";
+
+// Isse replace karein (Yeh sabse stable aur fast hai):
+const GEMINI_MODEL = "gemini-2.5-flash"; 
+
+// (Ya fir aap "gemini-flash-latest" bhi likh sakte hain)
     </script>
 </body>
 </html>
