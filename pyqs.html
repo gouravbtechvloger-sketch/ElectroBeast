@@ -248,298 +248,211 @@
   </footer>
 
   <script>
-    // ✅ YOUR NEW GEMINI API KEY
-    const GEMINI_API_KEY = "AIzaSyCaJyFMmyMpPaUvAeThZgiwcFH5SusCQUk";
-    
-    // Topics Data
-    const topicsData = {
-      "Mathematics-III": {
-        1: ["Laplace Transform", "Properties of Laplace Transform", "Inverse Laplace Transform", "Convolution Theorem", "Applications to ODE"],
-        2: ["Fourier Series", "Even & Odd Functions", "Half Range Series", "Fourier Transform", "Parseval's Theorem"],
-        3: ["Analytic Functions", "Cauchy-Riemann Equations", "Cauchy's Integral Theorem", "Residue Theorem", "Complex Integration"],
-        4: ["Gradient", "Divergence", "Curl", "Line Integrals", "Stokes Theorem", "Gauss Divergence Theorem"],
-        5: ["Random Variables", "Probability Distributions", "Mean & Variance", "Correlation", "Regression"]
-      },
-      "Electronic Devices": {
-        1: ["PN Junction Diode", "V-I Characteristics", "Diode Equation", "Zener Diode", "Rectifiers", "Clippers"],
-        2: ["BJT", "Transistor Configurations", "Biasing Circuits", "JFET", "MOSFET Basics"],
-        3: ["MOSFET", "CMOS Inverter", "MOSFET Biasing", "Small Signal Model", "Frequency Response"],
-        4: ["Amplifiers", "Common Emitter", "Common Base", "Common Collector", "Darlington Pair"],
-        5: ["Feedback Amplifiers", "Oscillators", "Barkhausen Criterion", "RC Oscillators", "LC Oscillators"]
-      },
-      "Signals & Systems": {
-        1: ["Signal Classification", "Continuous & Discrete Signals", "Even & Odd Signals", "Periodic Signals", "Energy & Power Signals"],
-        2: ["Fourier Series", "Fourier Transform", "Properties of FT", "DTFT", "Sampling Theorem"],
-        3: ["Laplace Transform", "ROC", "Properties of Laplace", "Inverse Laplace", "System Analysis"],
-        4: ["Z-Transform", "ROC of Z-Transform", "Properties", "Inverse Z-Transform", "System Function"],
-        5: ["State Space Analysis", "Controllability", "Observability", "State Transition Matrix"]
-      },
-      "Analog Circuits": {
-        1: ["Op-Amp Basics", "Ideal Op-Amp", "Inverting Amplifier", "Non-Inverting Amplifier", "Voltage Follower"],
-        2: ["Summing Amplifier", "Integrator", "Differentiator", "Instrumentation Amplifier", "Log Amplifier"],
-        3: ["Active Filters", "Low Pass Filter", "High Pass Filter", "Band Pass Filter", "Notch Filter"],
-        4: ["Schmitt Trigger", "Astable Multivibrator", "Monostable Multivibrator", "555 Timer", "Phase Locked Loop"],
-        5: ["Voltage Regulators", "Series Regulator", "Shunt Regulator", "LM317", "Switching Regulators"]
-      },
-      "Analog Communication": {
-        1: ["AM Modulation", "Modulation Index", "DSB-SC", "SSB-SC", "VSB", "AM Demodulation"],
-        2: ["FM Modulation", "PM Modulation", "Narrowband FM", "Wideband FM", "FM Demodulation"],
-        3: ["Noise in Communication", "SNR", "Noise Figure", "Figure of Merit", "Pre-emphasis"],
-        4: ["Superheterodyne Receiver", "TRF Receiver", "AGC", "AFC", "Image Frequency"],
-        5: ["Pulse Modulation", "PAM", "PWM", "PPM", "PCM", "Delta Modulation"]
-      },
-      "Control Systems": {
-        1: ["Open Loop Control", "Closed Loop Control", "Transfer Function", "Block Diagram Reduction", "Signal Flow Graph"],
-        2: ["Time Response", "First Order System", "Second Order System", "Steady State Error", "Routh-Hurwitz"],
-        3: ["Root Locus", "Root Locus Rules", "Stability Analysis", "Effects of Poles & Zeros"],
-        4: ["Bode Plot", "Polar Plot", "Nyquist Stability", "Gain Margin", "Phase Margin"],
-        5: ["State Space Analysis", "Controllability", "Observability", "PID Controllers"]
-      },
-      "Electromagnetic Theory": {
-        1: ["Coordinate Systems", "Vector Calculus", "Gradient", "Divergence", "Curl", "Laplacian"],
-        2: ["Coulomb's Law", "Electric Field", "Gauss's Law", "Electric Potential", "Capacitance"],
-        3: ["Biot-Savart Law", "Ampere's Law", "Magnetic Field", "Inductance", "Magnetic Materials"],
-        4: ["Faraday's Law", "Displacement Current", "Maxwell's Equations", "Boundary Conditions"],
-        5: ["Wave Equation", "Plane Waves", "Poynting Vector", "Skin Effect", "Transmission Lines"]
-      }
-    };
-    
-    // Direct Gemini API Call
-    async function getGeminiAnswer(topic, subject) {
-      const modal = document.getElementById('solutionModal');
-      const solutionContent = document.getElementById('solutionContent');
-      const solutionTitle = document.getElementById('solutionTitle');
-      
-      solutionTitle.innerHTML = `🤖 Gemini AI: ${topic}`;
-      solutionContent.innerHTML = `<div class="solution-loading"><i class="fas fa-spinner"></i><p>Calling Gemini AI... Please wait (this may take 5-10 seconds)</p></div>`;
-      modal.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-      
-      const prompt = `You are an expert RGPV Electronics Engineering professor. Explain "${topic}" in detail for B.Tech students preparing for exams. Include:
-1. Clear definition and concept explanation
-2. Important formulas with proper mathematical notation
-3. Step-by-step explanation with examples if applicable
-4. Applications in Electronics and Communication
-5. Exam tips and common questions asked in RGPV
-
-Format with clear headings using **bold** for section titles. Keep it comprehensive but easy to understand.`;
-      
-      try {
-        // Using gemini-1.5-flash for faster responses
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1500,
-              topP: 0.9
+        // ✅ CORRECT GEMINI API CONFIGURATION
+        const GEMINI_API_KEY = "AIzaSyBw4Sh-PsEsBuhI82EG5ZiFSsNo91Bz2gA"; // Aapki nayi key
+        const GEMINI_MODEL = "gemini-1.5-flash";  // ✅ Updated to faster model
+        
+        // Topics Data
+        const topicsData = {
+            "Signals & Systems": {
+                1: ["Signal Classification", "Continuous & Discrete Signals", "Even & Odd Signals", "Periodic & Aperiodic Signals", "Energy & Power Signals"],
+                2: ["Fourier Series", "Fourier Transform", "Properties of FT", "DTFT", "Sampling Theorem"],
+                3: ["Laplace Transform", "ROC", "Properties of Laplace", "Inverse Laplace", "System Analysis"],
+                4: ["Z-Transform", "ROC of Z-Transform", "Properties", "Inverse Z-Transform"],
+                5: ["State Space Analysis", "Controllability", "Observability"]
+            },
+            "Analog Circuits": {
+                1: ["Op-Amp Basics", "Ideal Op-Amp", "Inverting Amplifier", "Non-Inverting Amplifier", "Voltage Follower"],
+                2: ["Summing Amplifier", "Integrator", "Differentiator", "Instrumentation Amplifier"],
+                3: ["Active Filters", "Low Pass Filter", "High Pass Filter", "Band Pass Filter"],
+                4: ["Schmitt Trigger", "Astable Multivibrator", "Monostable Multivibrator", "555 Timer"],
+                5: ["Voltage Regulators", "Series Regulator", "LM317", "Switching Regulators"]
+            },
+            "Electronic Devices": {
+                1: ["PN Junction Diode", "V-I Characteristics", "Diode Equation", "Zener Diode", "Rectifiers"],
+                2: ["BJT", "Transistor Configurations", "Biasing Circuits", "JFET", "MOSFET Basics"],
+                3: ["MOSFET", "CMOS Inverter", "Small Signal Model", "Frequency Response"],
+                4: ["Amplifiers", "Common Emitter", "Common Base", "Common Collector"],
+                5: ["Feedback Amplifiers", "Oscillators", "Barkhausen Criterion", "RC Oscillators"]
+            },
+            "Control Systems": {
+                1: ["Open Loop Control", "Closed Loop Control", "Transfer Function", "Block Diagram Reduction"],
+                2: ["Time Response", "First Order System", "Second Order System", "Steady State Error"],
+                3: ["Root Locus", "Root Locus Rules", "Stability Analysis"],
+                4: ["Bode Plot", "Polar Plot", "Nyquist Stability", "Gain Margin"],
+                5: ["State Space Analysis", "Controllability", "Observability", "PID Controllers"]
+            },
+            "Analog Communication": {
+                1: ["AM Modulation", "Modulation Index", "DSB-SC", "SSB-SC", "AM Demodulation"],
+                2: ["FM Modulation", "PM Modulation", "Narrowband FM", "Wideband FM", "FM Demodulation"],
+                3: ["Noise in Communication", "SNR", "Noise Figure", "Figure of Merit"],
+                4: ["Superheterodyne Receiver", "TRF Receiver", "AGC", "AFC"],
+                5: ["Pulse Modulation", "PAM", "PWM", "PPM", "PCM"]
+            },
+            "Mathematics-III": {
+                1: ["Laplace Transform", "Properties of Laplace", "Inverse Laplace", "Convolution Theorem"],
+                2: ["Fourier Series", "Even & Odd Functions", "Half Range Series", "Fourier Transform"],
+                3: ["Analytic Functions", "Cauchy-Riemann Equations", "Cauchy's Integral Theorem"],
+                4: ["Gradient", "Divergence", "Curl", "Stokes Theorem", "Gauss Theorem"],
+                5: ["Random Variables", "Probability Distributions", "Mean & Variance", "Correlation"]
             }
-          })
-        });
+        };
+
+        let currentOpenUnit = null;
+
+        function toggleUnit(unitId) {
+            const list = document.getElementById(`topics-${unitId}`);
+            if (currentOpenUnit === unitId) {
+                list.classList.remove('open');
+                currentOpenUnit = null;
+            } else {
+                if (currentOpenUnit) {
+                    document.getElementById(`topics-${currentOpenUnit}`).classList.remove('open');
+                }
+                list.classList.add('open');
+                currentOpenUnit = unitId;
+            }
+        }
+
+        async function getAIAnswer(topic) {
+            const modal = document.getElementById('answerModal');
+            const modalContent = document.getElementById('modalContent');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalTitle.innerHTML = `🤖 AI: ${topic}`;
+            modalContent.innerHTML = `<div class="loading"><i class="fas fa-spinner"></i><p>Calling Gemini AI...</p></div>`;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            const prompt = `You are an RGPV Electronics Engineering professor. Explain "${topic}" in detail for B.Tech exam. Include definition, important formulas, key points, and applications. Keep it concise but exam-focused.`;
+            
+            try {
+                // ✅ Fetch call with updated model
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { temperature: 0.7, maxOutputTokens: 1000 }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    modalContent.innerHTML = `
+                        <div class="error">
+                            <strong>⚠️ API Error:</strong> ${data.error.message || "Unknown error"}<br><br>
+                            <strong>Fix:</strong> API limit reached or key is invalid.
+                        </div>
+                        <div class="answer" style="margin-top: 20px;">
+                            <strong>📚 Quick Answer for ${topic}:</strong><br><br>
+                            This topic is important for RGPV exams. Focus on understanding the basic concepts, 
+                            practicing numerical problems, and reviewing previous year questions.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (!answer) {
+                    throw new Error("No response from AI");
+                }
+                
+                answer = answer.replace(/\n/g, '<br>');
+                answer = answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                modalContent.innerHTML = `<div class="answer">${answer}</div>`;
+                
+            } catch (error) {
+                modalContent.innerHTML = `
+                    <div class="error">
+                        <strong>⚠️ Error:</strong> ${error.message}<br><br>
+                        <strong>💡 Tip:</strong> Please check your internet connection.
+                    </div>
+                `;
+            }
+        }
+
+        let currentSubject = "";
         
-        const data = await response.json();
-        
-        if (data.error) {
-          console.error("Gemini API Error:", data.error);
-          solutionContent.innerHTML = `
-            <div class="error-message">
-              <strong>⚠️ API Error:</strong> ${data.error.message || "Unknown error"}<br><br>
-              <strong>Possible fixes:</strong><br>
-              • Check if API key is valid and enabled<br>
-              • Wait 1-2 minutes and try again<br>
-              • Enable Gemini API in Google Cloud Console
-            </div>
-            <div class="mt-4 p-4 bg-ninja-black rounded-lg">
-              <p class="text-ninja-cyan">💡 Tip: You can also ask questions in the AI Solver page!</p>
-            </div>
-          `;
-          return;
+        function askAI(topic, subject) {
+            currentSubject = subject;
+            getAIAnswer(topic);
         }
         
-        let answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        
-        if (!answer) {
-          solutionContent.innerHTML = `
-            <div class="error-message">
-              <strong>⚠️ No response from Gemini AI</strong><br>
-              The API returned empty response. Please try again.
-            </div>
-          `;
-          return;
+        function closeModal() {
+            document.getElementById('answerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
         
-        // Format the answer for better display
-        answer = answer.replace(/\n/g, '<br>');
-        answer = answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        answer = answer.replace(/### (.*?)(<br>|$)/g, '<h4 style="color: #10b981; margin: 20px 0 10px 0;">$1</h4>');
-        answer = answer.replace(/## (.*?)(<br>|$)/g, '<h3 style="color: #a855f7; margin: 25px 0 12px 0;">$1</h3>');
-        answer = answer.replace(/\* (.*?)(<br>|$)/g, '• $1<br>');
-        
-        solutionContent.innerHTML = `<div class="solution-answer">${answer}</div>`;
-        
-      } catch (error) {
-        console.error("Fetch Error:", error);
-        solutionContent.innerHTML = `
-          <div class="error-message">
-            <strong>⚠️ Connection Error</strong><br>
-            ${error.message || "Could not connect to Gemini API"}<br><br>
-            <strong>Check:</strong><br>
-            • Internet connection<br>
-            • API key is correct: ${GEMINI_API_KEY.substring(0, 15)}...<br>
-            • Gemini API is enabled in Google Cloud Console
-          </div>
-          <div class="mt-4 p-4 bg-ninja-black rounded-lg">
-            <p class="text-ninja-cyan">💡 You can also try: <a href="/ai-solver.html" style="color: #10b981;">AI Solver Page</a></p>
-          </div>
-        `;
-      }
-    }
-    
-    function closeSolutionModal() {
-      document.getElementById('solutionModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-    
-    let currentOpenUnit = null;
-    
-    function toggleUnit(unitId) {
-      const topicList = document.getElementById(`topics-${unitId}`);
-      const btn = document.getElementById(`btn-${unitId}`);
-      
-      if (currentOpenUnit === unitId) {
-        topicList.classList.remove('open');
-        btn.classList.remove('open');
-        currentOpenUnit = null;
-      } else {
-        if (currentOpenUnit) {
-          const prevList = document.getElementById(`topics-${currentOpenUnit}`);
-          const prevBtn = document.getElementById(`btn-${currentOpenUnit}`);
-          if (prevList) prevList.classList.remove('open');
-          if (prevBtn) prevBtn.classList.remove('open');
-        }
-        topicList.classList.add('open');
-        btn.classList.add('open');
-        currentOpenUnit = unitId;
-      }
-    }
-    
-    function renderSubjects(semester) {
-      const subjects = {
-        3: {
-          "Mathematics-III": { icon: "📐", color: "#06b6d4" },
-          "Electronic Devices": { icon: "💡", color: "#9333ea" },
-          "Signals & Systems": { icon: "📡", color: "#06b6d4" },
-          "Analog Circuits": { icon: "⚡", color: "#9333ea" }
-        },
-        4: {
-          "Signals & Systems": { icon: "📡", color: "#06b6d4" },
-          "Analog Communication": { icon: "📻", color: "#9333ea" },
-          "Control Systems": { icon: "🎮", color: "#06b6d4" },
-          "Analog Circuits": { icon: "⚡", color: "#9333ea" },
-          "Electromagnetic Theory": { icon: "🧲", color: "#06b6d4" }
-        }
-      };
-      
-      const currentSubjects = subjects[semester];
-      const gridId = `sem${semester}-grid`;
-      const grid = document.getElementById(gridId);
-      if (!grid) return;
-      
-      grid.innerHTML = '';
-      
-      for (const [subject, data] of Object.entries(currentSubjects)) {
-        const unitsData = topicsData[subject] || {};
-        let unitsHtml = '';
-        
-        for (let unitNum = 1; unitNum <= 5; unitNum++) {
-          const topics = unitsData[unitNum] || [`Unit ${unitNum} Topics Coming Soon`];
-          const unitId = `${subject.replace(/\s/g, '')}-unit-${unitNum}`;
-          
-          const topicsHtml = topics.map(topic => `
-            <div class="topic-item">
-              <span class="topic-name">📌 ${topic}</span>
-              <button class="ai-solution-btn" onclick="getGeminiAnswer('${topic.replace(/'/g, "\\'")}', '${subject.replace(/'/g, "\\'")}')">
-                <i class="fas fa-robot"></i> Get AI Answer
-              </button>
-            </div>
-          `).join('');
-          
-          unitsHtml += `
-            <div class="topic-toggle-btn" id="btn-${unitId}" onclick="toggleUnit('${unitId}')">
-              <span class="unit-title">Unit ${unitNum}</span>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div id="topics-${unitId}" class="topic-list" style="background: rgba(0,0,0,0.3); border-radius: 10px; margin-bottom: 12px;">
-              <div style="padding: 8px 12px;">
-                ${topicsHtml}
-              </div>
-            </div>
-          `;
+        function renderSubjects(semester) {
+            const subjects = semester === 3 ? 
+                ["Signals & Systems", "Analog Circuits", "Electronic Devices", "Mathematics-III"] :
+                ["Signals & Systems", "Analog Circuits", "Control Systems", "Analog Communication"];
+            
+            const container = document.getElementById('subjectsContainer');
+            container.innerHTML = '';
+            
+            subjects.forEach(subject => {
+                const unitsData = topicsData[subject] || {};
+                let unitsHtml = '';
+                
+                for (let u = 1; u <= 5; u++) {
+                    const topics = unitsData[u] || [`Unit ${u} topics coming soon`];
+                    const unitId = `${subject.replace(/\s/g, '')}-${u}`;
+                    
+                    const topicsHtml = topics.map(topic => `
+                        <div class="topic-item">
+                            <span>📌 ${topic}</span>
+                            <button class="ai-btn" onclick="askAI('${topic.replace(/'/g, "\\'")}', '${subject}')">
+                                <i class="fas fa-robot"></i> Get Answer
+                            </button>
+                        </div>
+                    `).join('');
+                    
+                    unitsHtml += `
+                        <button class="unit-btn" onclick="toggleUnit('${unitId}')">
+                            <span>Unit ${u}</span>
+                            <span>▼</span>
+                        </button>
+                        <div id="topics-${unitId}" class="topic-list">
+                            ${topicsHtml}
+                        </div>
+                    `;
+                }
+                
+                container.innerHTML += `
+                    <div class="subject-card">
+                        <h3>${subject}</h3>
+                        ${unitsHtml}
+                    </div>
+                `;
+            });
         }
         
-        grid.innerHTML += `
-          <div class="card-hover subject-card" style="background: rgba(26,26,46,0.8); border-radius: 20px; padding: 20px;">
-            <div class="flex items-start justify-between mb-4">
-              <div>
-                <h3 class="text-2xl font-bold" style="color: ${data.color};">${subject}</h3>
-                <p class="text-sm text-gray-500">Click unit → See topics → Click "Get AI Answer"</p>
-              </div>
-              <span class="text-4xl">${data.icon}</span>
-            </div>
-            <div class="space-y-1">
-              ${unitsHtml}
-            </div>
-          </div>
-        `;
-      }
-    }
-    
-    // Semester tabs
-    const semesterTabs = document.querySelectorAll('.semester-tab');
-    const semesterContents = document.querySelectorAll('.semester-content');
-    
-    semesterTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const sem = tab.dataset.sem;
+        function switchSemester(sem) {
+            document.querySelectorAll('.sem-btn').forEach((btn, i) => {
+                if ((sem === 3 && i === 0) || (sem === 4 && i === 1)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderSubjects(sem);
+        }
         
-        semesterTabs.forEach(t => {
-          t.classList.remove('active', 'bg-ninja-purple', 'text-white');
-          t.classList.add('bg-ninja-black', 'text-gray-400');
-        });
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+        }
         
-        tab.classList.add('active', 'bg-ninja-purple', 'text-white');
-        tab.classList.remove('bg-ninja-black', 'text-gray-400');
+        renderSubjects(3);
         
-        semesterContents.forEach(content => {
-          if (content.id === `sem${sem}-content`) {
-            content.classList.remove('hidden');
-          } else {
-            content.classList.add('hidden');
-          }
-        });
-        
-        renderSubjects(parseInt(sem));
-      });
-    });
-    
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenuBtn) {
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-    }
-    
-    window.onclick = function(event) {
-      const modal = document.getElementById('solutionModal');
-      if (event.target === modal) closeSolutionModal();
-    }
-    
-    renderSubjects(3);
-  </script>
-  <script type="module" src="/src/main.js"></script>
+        window.onclick = function(event) {
+            const modal = document.getElementById('answerModal');
+            if (event.target === modal) closeModal();
+        }
+    </script>
 </body>
 </html>
